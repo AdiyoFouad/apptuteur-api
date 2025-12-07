@@ -15,3 +15,20 @@ logout:
 dashboard:
     path: '/dashboard'
     controller: 'App\Controller\TuteurController::dashboard'
+
+etudiants_list:
+    path: '/etudiants'
+    controller: 'App\Controller\EtudiantController::index'
+
+etudiant_new:
+    path: '/etudiants/new'
+    controller: 'App\Controller\EtudiantController::new'
+
+etudiant_edit:
+    path: '/etudiants/{id}/edit'
+    controller: 'App\Controller\EtudiantController::edit'
+
+etudiant_delete:
+    path: '/etudiants/{id}/delete'
+    controller: 'App\Controller\EtudiantController::delete'
+    

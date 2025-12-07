@@ -28,6 +28,10 @@
                             <a class="nav-link" href="{{ path('dashboard') }}">Dashboard</a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('etudiants_list') }}">Etudiants</a>
+                        </li>
+
                         {% if app.session.get('tuteur_id') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
