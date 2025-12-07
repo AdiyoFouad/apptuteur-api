@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 #[ORM\Entity(repositoryClass: VisiteRepository::class)]
 #[ApiResource]
 class Visite
@@ -29,6 +30,16 @@ class Visite
     #[ORM\ManyToOne(inversedBy: 'visites')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tuteur $tuteur = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $compteRendu = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Choice(choices:["prévue", "réalisée", "annulée"], message:"Le statut doit être prévue, réalisée ou annulée")]
+    private ?string $statut = null;
+
+    #[ORM\ManyToOne(inversedBy: 'visites')]
+    private ?Etudiant $etudiant = null;
 
     public function getId(): ?int
     {
@@ -67,6 +78,42 @@ class Visite
     public function setTuteur(?Tuteur $tuteur): static
     {
         $this->tuteur = $tuteur;
+
+        return $this;
+    }
+
+    public function getCompteRendu(): ?string
+    {
+        return $this->compteRendu;
+    }
+
+    public function setCompteRendu(?string $compteRendu): static
+    {
+        $this->compteRendu = $compteRendu;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): static
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(?Etudiant $etudiant): static
+    {
+        $this->etudiant = $etudiant;
 
         return $this;
     }

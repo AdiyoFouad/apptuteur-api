@@ -38,9 +38,16 @@ class Tuteur
     #[ORM\OneToMany(targetEntity: Visite::class, mappedBy: 'tuteur')]
     private Collection $visites;
 
+    /**
+     * @var Collection<int, Etudiant>
+     */
+    #[ORM\OneToMany(targetEntity: Etudiant::class, mappedBy: 'tuteur')]
+    private Collection $etudiants;
+
     public function __construct()
     {
         $this->visites = new ArrayCollection();
+        $this->etudiants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +139,36 @@ class Tuteur
             // set the owning side to null (unless already changed)
             if ($visite->getTuteur() === $this) {
                 $visite->setTuteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etudiant>
+     */
+    public function getEtudiants(): Collection
+    {
+        return $this->etudiants;
+    }
+
+    public function addEtudiant(Etudiant $etudiant): static
+    {
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants->add($etudiant);
+            $etudiant->setTuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiant(Etudiant $etudiant): static
+    {
+        if ($this->etudiants->removeElement($etudiant)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getTuteur() === $this) {
+                $etudiant->setTuteur(null);
             }
         }
 
