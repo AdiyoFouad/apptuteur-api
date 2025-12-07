@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-2">
+    <div class="d-flex gap-2 align-items-center mb-3">
+        <button class="btn btn-secondary" onclick="window.history.back()">Retour</button>
+        <h1>Compte-rendu de visite pour {{ visite.etudiant.nom }} {{ visite.etudiant.prenom }}</h1>
+    </div>
+
+    <div class="card shadow-sm p-4">
+        <p><strong>Date :</strong> {{ visite.date|date('d/m/Y') }}</p>
+        <p><strong>Commentaire initial :</strong> {{ visite.commentaire }}</p>
+        <p>
+            <strong>Statut actuel :</strong>
+            
+                    {% if visite.statut == 'prévue' %}
+                        <span class="badge bg-primary">{{ visite.statut }}</span>
+                    {% elseif visite.statut == 'réalisée' %}
+                        <span class="badge bg-success">{{ visite.statut }}</span>
+                    {% elseif visite.statut == 'annulée' %}
+                        <span class="badge bg-danger">{{ visite.statut }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ visite.statut }}</span>
+                    {% endif %}
+        </p>
+
+        <hr>
+
+        <h3>Ajouter un compte-rendu</h3>
+
+        {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_widget(form) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer le compte-rendu</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

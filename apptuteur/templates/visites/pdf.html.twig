@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compte-rendu de visite</h1>
+    <p><strong>Date :</strong> {{ visite.date|date('d/m/Y') }}</p>
+    <p><strong>Commentaire :</strong> {{ visite.commentaire }}</p>
+    <p><strong>Compte-rendu :</strong> {{ visite.compteRendu }}</p>
+</body>
+</html>

@@ -31,4 +31,27 @@ etudiant_edit:
 etudiant_delete:
     path: '/etudiants/{id}/delete'
     controller: 'App\Controller\EtudiantController::delete'
+
+visites_etudiant:
+    path: 'etudiants/{id}/visites'
+    controller: 'App\Controller\VisiteController::index'
+
+visite_new:
+    path: 'etudiants/{id}/visites/new'
+    controller: 'App\Controller\VisiteController::new'
+
+visite_edit:
+    path: '/visites/{id}/edit'
+    controller: 'App\Controller\VisiteController::edit'
+
+visite_compte_rendu:
+    path: '/visites/{id}/compte-rendu'
+    controller: 'App\Controller\VisiteController::compteRendu'
+
+visite_pdf:
+    path: '/visites/{id}/compte-rendu/pdf'
+    controller: 'App\Controller\VisiteController::exportPDF'
+    
+    
+    
     
