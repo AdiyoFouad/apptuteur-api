@@ -22,7 +22,7 @@ use Dompdf\Options;
 class VisiteController extends AbstractController
 {
     
-    public function index(int $id, EtudiantRepository $etudiantRepo, VisiteRepository $visiteRepo, SessionInterface $session): Response
+    public function index(int $id, EtudiantRepository $etudiantRepo, VisiteRepository $visiteRepo, SessionInterface $session, Request $request): Response
     {
         $tuteurId = $session->get('tuteur_id');
         if (!$tuteurId) {
@@ -33,12 +33,17 @@ class VisiteController extends AbstractController
         if (!$etudiant || $etudiant->getTuteur()->getId() !== $tuteurId) {
             throw $this->createAccessDeniedException("Cet étudiant ne vous appartient pas.");
         }
+        $statut = $request->query->get('statut', 'toutes');
+        $tri = $request->query->get('tri', 'ASC');
 
-        $visites = $visiteRepo->findBy(['etudiant' => $etudiant]);
+        $visites = $visiteRepo->findAndSort($etudiant, $statut, $tri);
 
         return $this->render('visites/index.html.twig', [
             'etudiant' => $etudiant,
-            'visites' => $visites
+            'visites' => $visites,
+            'statut' => $statut,
+            'tri' => $tri,
+            'query' => $request->query->all()
         ]);
     }
 

@@ -9,6 +9,32 @@
     <div class="d-flex justify-content-between mb-3">
         <a href="{{ path('visite_new', {id: etudiant.id}) }}" class="btn btn-primary">Ajouter une visite</a>
     </div>
+    <div class="card ">
+        <form method="get" action="?{{ query|merge({'tri': tri, 'statut':statut})|url_encode }}" class="p-2 d-flex align-items-center justify-content-center gap-3">
+            <label for="statut">Filtrer par statut :</label>
+            <select name="statut" id="statut" class="form-select" style="max-width:200px;">
+                <option value="toutes" {% if statut == 'toutes' %}selected{% endif %}>Toutes</option>
+                <option value="prévue" {% if statut == 'prévue' %}selected{% endif %}>Prévue</option>
+                <option value="réalisée" {% if statut == 'réalisée' %}selected{% endif %}>Réalisée</option>
+                <option value="annulée" {% if statut == 'annulée' %}selected{% endif %}>Annulée</option>
+            </select>
+
+            <button class="btn btn-primary btn-sm">Filtrer</button>
+
+            
+            <div>
+                <a href="?{{ query|merge({'tri': 'ASC', 'statut':statut})|url_encode }}" 
+                    class="btn btn-outline-secondary btn-sm">
+                    Trier ↑
+                </a>
+
+                <a href="?{{ query|merge({'tri': 'DESC', 'statut':statut})|url_encode }}" 
+                    class="btn btn-outline-secondary btn-sm">
+                    Trier ↓
+                </a>
+            </div>
+        </form>
+    </div>
     <div class="card">
         <table class="table table-striped table-bordered">
             <thead>

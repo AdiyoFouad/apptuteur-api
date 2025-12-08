@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Etudiant;
 use App\Entity\Visite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @extends ServiceEntityRepository<Visite>
@@ -15,6 +18,21 @@ class VisiteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Visite::class);
     }
+
+    public function findAndSort(Etudiant $etudiant, string $statut, string $tri): array
+    {
+
+        $qb = $this->createQueryBuilder('v');
+        $qb->andWhere('v.etudiant = :etudiant')->setParameter('etudiant', $etudiant);
+        if ($statut && $statut !== 'toutes') {
+            $qb->andWhere('v.statut = :statut')->setParameter('statut', $statut);
+        }
+
+        $qb->orderBy('v.date', $tri);
+
+        return $qb->getQuery()->getResult();
+    }
+
 
     //    /**
     //     * @return Visite[] Returns an array of Visite objects

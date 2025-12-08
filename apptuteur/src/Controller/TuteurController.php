@@ -27,29 +27,21 @@ class TuteurController extends AbstractController {
         // Récupérer la liste des étudiants associés au tuteur
         $etudiants = $etudiantRepo->findBy(['tuteur' => $tuteur]);
 
-        // Récupérer les prochaines visites planifiées (statut "prévue")
-        /* $prochainesVisites = $visiteRepo->findBy([
-            'tuteur' => $tuteur,
-            'statut' => 'prévue',
-        ], [
-            'date' => 'ASC' // Trier par date croissante
-        ]); */
-
         // Récupérer les prochaines visites planifiées (statut "prévue" et dont la date est dans le futur)
-    $now = new \DateTimeImmutable(); // Date actuelle
+        $now = new \DateTimeImmutable(); // Date actuelle
 
-    $prochainesVisites = $visiteRepo->createQueryBuilder('v')
-        ->where('v.tuteur = :tuteur')
-        ->andWhere('v.statut = :statut')
-        ->andWhere('v.date >= :now') // Date future ou égale à aujourd'hui
-        ->andWhere('v.statut != :annule') // Exclure les visites annulées
-        ->setParameter('tuteur', $tuteur)
-        ->setParameter('statut', 'prévue')
-        ->setParameter('now', $now)
-        ->setParameter('annule', 'annulée')
-        ->orderBy('v.date', 'ASC') // Trier par date croissante
-        ->getQuery()
-        ->getResult();
+        $prochainesVisites = $visiteRepo->createQueryBuilder('v')
+            ->where('v.tuteur = :tuteur')
+            ->andWhere('v.statut = :statut')
+            ->andWhere('v.date >= :now') // Date future ou égale à aujourd'hui
+            ->andWhere('v.statut != :annule') // Exclure les visites annulées
+            ->setParameter('tuteur', $tuteur)
+            ->setParameter('statut', 'prévue')
+            ->setParameter('now', $now)
+            ->setParameter('annule', 'annulée')
+            ->orderBy('v.date', 'ASC') // Trier par date croissante
+            ->getQuery()
+            ->getResult();
 
         return $this->render('tuteur/dashboard.html.twig', [
             'tuteur' => $tuteur,
