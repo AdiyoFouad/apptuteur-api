@@ -2,4 +2,57 @@
 
 {% block title %} Dashboard Tuteur {% endblock %}
 
-{% block body %} Dashboard Tuteur {% endblock %}
+{% block body %}
+    <div class="container mt-2">
+        <h1>Tableau de bord - {{ tuteur.nom }} {{ tuteur.prenom }}</h1>
+
+        <!-- Informations du tuteur -->
+        <div class="card mb-4">
+            <div class="card-header">Mes Informations</div>
+            <div class="card-body">
+                <p><strong>Nom :</strong> {{ tuteur.nom }} {{ tuteur.prenom }}</p>
+                <p><strong>Entreprise :</strong> {{ tuteur.entreprise }}</p>
+                <p><strong>Email :</strong> {{ tuteur.email }}</p>
+                <p><strong>Téléphone :</strong> {{ tuteur.telephone }}</p>
+            </div>
+        </div>
+
+        <!-- Liste des étudiants -->
+        <div class="card mb-4">
+            <div class="card-header">Mes Étudiants</div>
+            <div class="card-body">
+                {% if etudiants is empty %}
+                    <p>Aucun étudiant trouvé.</p>
+                {% else %}
+                    <ul class="list-group">
+                        {% for etudiant in etudiants %}
+                            <li class="list-group-item">
+                                {{ etudiant.nom }} {{ etudiant.prenom }} - {{ etudiant.formation }}
+                                <a href="{{ path('visites_etudiant', {id: etudiant.id}) }}" class="btn btn-info btn-sm float-end">Voir les visites</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <a href="{{ path('etudiant_new') }}" class="btn btn-primary mt-3">Ajouter un étudiant</a>
+            </div>
+        </div>
+
+        <!-- Prochaines visites planifiées -->
+        <div class="card mb-4">
+            <div class="card-header">Prochaines Visites</div>
+            <div class="card-body">
+                {% if prochaines_visites is empty %}
+                    <p>Aucune visite planifiée.</p>
+                {% else %}
+                    <ul class="list-group">
+                        {% for visite in prochaines_visites %}
+                            <li class="list-group-item">
+                                <strong>{{ visite.date|date('d/m/Y') }}</strong> - {{ visite.commentaire }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
